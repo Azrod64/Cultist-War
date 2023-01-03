@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <time.h>
 #include "game.h"
-//ptn ca fonctionne plus5
+
 void initGame(board board, unitsArray nb_unite)
 {
     int compt=0,n,x,False =1,a,b;
@@ -35,11 +35,11 @@ void initGame(board board, unitsArray nb_unite)
         nb_unite->units[i].hp=MAX_HP;
         if(i==MAX_UNITS-2) //Initialisation leader 1
         {
-            board[3][0]='1';
             nb_unite->units[i].owner=0;
             nb_unite->units[i].unit_type=1;
-            nb_unite->units[i].x=3;
-            nb_unite->units[i].y=0;
+            nb_unite->units[i].x=4;
+            nb_unite->units[i].y=4;
+            board[nb_unite->units[i].x][nb_unite->units[i].y]='1';
         }
         else if(i==MAX_UNITS-1) //Initialisation leader 2
         {
@@ -58,6 +58,7 @@ void initGame(board board, unitsArray nb_unite)
                 nb_unite->units[i]=nb_unite->units[i-MAX_UNITS/2];
 		        nb_unite->units[i].unitId=i;
                 nb_unite->units[i].y=12-nb_unite->units[i].y;
+                //board[nb_unite->units[i].x][nb_unite->units[i].y]='u';
             }
             else 
             {
@@ -84,14 +85,21 @@ void printBoard(board board)
     assert(board);
 	printf("\n");
     printf("    u unités neutres - 1 et 2 leaders - X obstacles\n");
+    for (int j=0; j<WIDTH; j++)
+    {
+        if(j>=10) printf("  %d",j);
+        else printf("   %d",j);
+    } 
+    printf("\n");
 	for (int j=0; j<WIDTH; j++)
     {
-        if (j==0) printf(" ___");
+        if (j==0) printf("  ___");
         else printf("____");
     } 
     printf("\n");
     for(int i=0;i<HEIGHT;i++)
     {
+        printf("%d",i);
         for(int j=0;j<WIDTH;j++)
         {
             if(j%WIDTH == 0) printf("|");
@@ -101,7 +109,7 @@ void printBoard(board board)
         printf("\n");
         for (int j=0; j<WIDTH; j++)
         {
-            if (j==0) printf(" ___");
+            if (j==0) printf("  ___");
             else printf("____");
         } 
         printf("\n");
@@ -367,7 +375,7 @@ void shoot(board board, unitsArray nb_unite, int uniteId, int targetId,tab_shoot
             y2 = nb_unite->units[i].y;
         }
     }
-    if(compt = algo_Bresenham(board,x1,y1,x2,y2,tableau_mouv) <= 7)
+    if((compt = algo_Bresenham(board,x1,y1,x2,y2,tableau_mouv)) <= 7)
     {
         for(int j=0;j<compt;j++)
         {
@@ -387,17 +395,8 @@ void shoot(board board, unitsArray nb_unite, int uniteId, int targetId,tab_shoot
 }
 void move(board plateau, unitsArray nb_unite, int uniteId, int x, int y)
 {
-    int x1,y1,num_unite;
-    for(int i=0;i<MAX_UNITS;i++)
-    {
-        if (nb_unite->units[i].unitId == uniteId) 
-        {
-            x1 = nb_unite->units[i].x;
-            y1 = nb_unite->units[i].y;
-            num_unite = i; //permet de stocker dans la variable num_unite le numéro de l'unité ciblée
-        }
-    }
-    if((abs(x1-x)==1 ^ abs(y1-y)==1) && plateau[x][y] == '0')
+    int x1 = nb_unite->units[uniteId].x,y1 = nb_unite->units[uniteId].y;
+    if(abs(x1-x)<=1 && abs(y1-y)<=1 && (abs(x1-x)!=1 && abs(y1-y)!=1) && plateau[x][y] == '0')
     {
         plateau[x1][y1]='0';
         plateau[x][y]='u';
@@ -408,7 +407,28 @@ void move(board plateau, unitsArray nb_unite, int uniteId, int x, int y)
         printf("\n////////////L'unité ne peut pas ce déplacer.////////////\n");
     }
 }
-
+void convert(board plateau, unitsArray nb_unite, int unitId, int targetId)
+{
+    int x=nb_unite->units[unitId].x,y=nb_unite->units[unitId].y,x1=nb_unite->units[targetId].x,y1=nb_unite->units[targetId].y;
+    if(abs(x1-x)<=1 && abs(y1-y)<=1 && (abs(x1-x)!=1 && abs(y1-y)!=1) && (plateau[x1][y1] == 'u' || nb_unite->units[targetId].owner!=nb_unite->units[unitId].owner))
+    {
+        if(nb_unite->units[unitId].owner == 0) 
+        {
+            nb_unite->units[targetId].owner = 0;
+            plateau[x1][y1]='A';
+        }
+        else 
+        {
+            plateau[x1][y1]='B';
+            nb_unite->units[targetId].owner = 1;
+        }
+        printBoard(plateau);
+    }
+    else
+    {
+        printf("\n////////////Le leader ne peut pas convertir.////////////\n");
+    }
+}
 int main(){
     board plateau;
     unitsArray nb_unite = malloc(sizeof(struct unitsArray_s));
@@ -421,8 +441,10 @@ int main(){
     }*/
     initGame(plateau,nb_unite);
     //int compt=algo_Bresenham(plateau,0,0,5,8,tableau_coord);
+    print_unitsArray(nb_unite);
     printBoard(plateau);
-    move(plateau,nb_unite,6,0,0);
+    //move(plateau,nb_unite,6,0,0);
+    convert(plateau,nb_unite,12,1);
     printf("\n");
     return 0;
 }
