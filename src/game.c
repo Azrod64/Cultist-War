@@ -7,7 +7,7 @@
 
 void initGame(board board, unitsArray nb_unite)
 {
-    int compt=0,n,x,False =1,a,b;
+    int compt=0,n,x,False=1,a,b;
     //Initialisation du board
     for(int i=0;i<HEIGHT;i++)
     {
@@ -37,17 +37,17 @@ void initGame(board board, unitsArray nb_unite)
         {
             nb_unite->units[i].owner=0;
             nb_unite->units[i].unit_type=1;
-            nb_unite->units[i].x=4;
-            nb_unite->units[i].y=4;
-            board[nb_unite->units[i].x][nb_unite->units[i].y]='1';
+            nb_unite->units[i].x=3;
+            nb_unite->units[i].y=0;
+            //board[nb_unite->units[i].x][nb_unite->units[i].y]='1';
         }
         else if(i==MAX_UNITS-1) //Initialisation leader 2
         {
-            board[3][12]='2';
             nb_unite->units[i].owner=1;
             nb_unite->units[i].unit_type=1;
             nb_unite->units[i].x=3;
             nb_unite->units[i].y=12;
+            //board[nb_unite->units[i].x][nb_unite->units[i].y]='2';
         }
         else
         {
@@ -70,7 +70,7 @@ void initGame(board board, unitsArray nb_unite)
                     {
                         nb_unite->units[i].x=a;
                         nb_unite->units[i].y=b;
-                        board[a][b]='u'; //commande qui permet de savoir ou sont les unités
+                        //board[a][b]='u'; //commande qui permet de savoir ou sont les unités
                         False = 0;
                     } 
                 }
@@ -361,46 +361,36 @@ void print_unitsArray(unitsArray nb_unite)
 }
 void shoot(board board, unitsArray nb_unite, int uniteId, int targetId,tab_shoot tableau_mouv)
 {
-    int x1,y1,x2,y2,compt; 
-    for(int i=0;i<MAX_UNITS;i++)
-    {
-        if (nb_unite->units[i].unitId == uniteId) 
-        {
-            x1 = nb_unite->units[i].x;
-            y1 = nb_unite->units[i].y;
-        }
-        else if (nb_unite->units[i].unitId == targetId) 
-        {
-            x2 = nb_unite->units[i].x;
-            y2 = nb_unite->units[i].y;
-        }
-    }
+    int x1,y1,x2,y2,compt,False = 1,j=0; 
+
+    x1 = nb_unite->units[uniteId].x;
+    y1 = nb_unite->units[uniteId].y;
+    x2 = nb_unite->units[targetId].x;
+    y2 = nb_unite->units[targetId].y;
+
     if((compt = algo_Bresenham(board,x1,y1,x2,y2,tableau_mouv)) <= 7)
     {
-        for(int j=0;j<compt;j++)
+        while(False)
         {
             if(board[tableau_mouv[j][0]][tableau_mouv[j][1]] == 'X')
             {
                 printf("Le tir a touché un obstacle.\n");
+                False = 0;
             }
+            j++;
         }
-        for(int i=0;i<MAX_UNITS;i++)
-        {
-            if (nb_unite->units[i].unitId == targetId) 
-            {
-                nb_unite->units[i].hp = nb_unite->units[i].hp-compt;
-            }
-        }
+        nb_unite->units[targetId].hp = nb_unite->units[targetId].hp-compt;
+
     }
 }
 void move(board plateau, unitsArray nb_unite, int uniteId, int x, int y)
 {
     int x1 = nb_unite->units[uniteId].x,y1 = nb_unite->units[uniteId].y;
-    if(abs(x1-x)<=1 && abs(y1-y)<=1 && (abs(x1-x)==abs(y1-y))!=1 && plateau[x][y] == '0')
+    if(abs(x1-x)<=1 && abs(y1-y)<=1 && (abs(x1-x)==abs(y1-y))!=1 /*&&*/ )/*plateau[x][y] == '0')*/
     {
-        plateau[x1][y1]='0';
-        plateau[x][y]='u';
-        printBoard(plateau);
+        //plateau[x1][y1]='0';
+        //plateau[x][y]='u';
+        //printBoard(plateau);
     }
     else
     {
@@ -444,7 +434,7 @@ int main(){
     print_unitsArray(nb_unite);
     printBoard(plateau);
     //move(plateau,nb_unite,6,0,0);
-    convert(plateau,nb_unite,12,0);
+    //convert(plateau,nb_unite,12,0);
     printf("\n");
     return 0;
 }
