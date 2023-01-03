@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <time.h>
 #include "game.h"
-//test-4
+
 void initGame(board board, unitsArray nb_unite)
 {
     int compt=0,n,x,False =1,a,b;
@@ -109,7 +109,7 @@ void printBoard(board board)
     }
 }
 
-int algo_Bresenham(board board, int x1, int y1, int x2, int y2,tab_move tableau_mouv)
+int algo_Bresenham(board board, int x1, int y1, int x2, int y2,tab_shoot tableau_mouv)
 {
     int dx,dy,compt=0;
     if((dx=x2-x1)!=0)
@@ -351,7 +351,7 @@ void print_unitsArray(unitsArray nb_unite)
         printf("Unité n°%d, hp:%d,x=%d, y=%d\n",nb_unite->units[i].unitId,nb_unite->units[i].hp,nb_unite->units[i].x,nb_unite->units[i].y);
     }
 }
-void shoot(board board, unitsArray nb_unite, int uniteId, int targetId,tab_move tableau_mouv)
+void shoot(board board, unitsArray nb_unite, int uniteId, int targetId,tab_shoot tableau_mouv)
 {
     int x1,y1,x2,y2,compt; 
     for(int i=0;i<MAX_UNITS;i++)
@@ -412,7 +412,7 @@ void move(board plateau, unitsArray nb_unite, int uniteId, int x, int y)
 int main(){
     board plateau;
     unitsArray nb_unite = malloc(sizeof(struct unitsArray_s));
-    tab_move tableau_coord;
+    tab_shoot tableau_coord;
     /* //Cela permet d'initialiser le tableau des coordonnées (inutile en C++)
     for(int i=0;i<MAX_TURNS;i++)
     {

@@ -24,7 +24,7 @@ enum unitType
 
 typedef char board[HEIGHT][WIDTH];
 
-typedef int tab_move[MAX_TURNS][2];
+typedef int tab_shoot[MAX_TURNS][2];
 
 typedef struct unit_s
 {
