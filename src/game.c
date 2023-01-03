@@ -56,6 +56,7 @@ void initGame(board board, unitsArray nb_unite)
             if(i>= MAX_UNITS/2)
             {
                 nb_unite->units[i]=nb_unite->units[i-MAX_UNITS/2];
+		nb_unite->units[i].unitId=i;
                 nb_unite->units[i].y=12-nb_unite->units[i].y;
             }
             else 
