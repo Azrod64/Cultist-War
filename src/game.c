@@ -396,7 +396,7 @@ void shoot(board board, unitsArray nb_unite, int uniteId, int targetId,tab_shoot
 void move(board plateau, unitsArray nb_unite, int uniteId, int x, int y)
 {
     int x1 = nb_unite->units[uniteId].x,y1 = nb_unite->units[uniteId].y;
-    if(abs(x1-x)<=1 && abs(y1-y)<=1 && (abs(x1-x)!=1 && abs(y1-y)!=1) && plateau[x][y] == '0')
+    if(abs(x1-x)<=1 && abs(y1-y)<=1 && (abs(x1-x)==abs(y1-y))!=1 && plateau[x][y] == '0')
     {
         plateau[x1][y1]='0';
         plateau[x][y]='u';
@@ -410,19 +410,19 @@ void move(board plateau, unitsArray nb_unite, int uniteId, int x, int y)
 void convert(board plateau, unitsArray nb_unite, int unitId, int targetId)
 {
     int x=nb_unite->units[unitId].x,y=nb_unite->units[unitId].y,x1=nb_unite->units[targetId].x,y1=nb_unite->units[targetId].y;
-    if(abs(x1-x)<=1 && abs(y1-y)<=1 && (abs(x1-x)!=1 && abs(y1-y)!=1) && (plateau[x1][y1] == 'u' || nb_unite->units[targetId].owner!=nb_unite->units[unitId].owner))
+    if(abs(x1-x)<=1 && abs(y1-y)<=1 && (abs(x1-x)==abs(y1-y))!=1 && nb_unite->units[targetId].owner!=nb_unite->units[unitId].owner)
     {
         if(nb_unite->units[unitId].owner == 0) 
         {
             nb_unite->units[targetId].owner = 0;
-            plateau[x1][y1]='A';
+            //plateau[x1][y1]='A';
         }
         else 
         {
-            plateau[x1][y1]='B';
             nb_unite->units[targetId].owner = 1;
+            //plateau[x1][y1]='B';
         }
-        printBoard(plateau);
+        //printBoard(plateau);
     }
     else
     {
@@ -444,7 +444,7 @@ int main(){
     print_unitsArray(nb_unite);
     printBoard(plateau);
     //move(plateau,nb_unite,6,0,0);
-    convert(plateau,nb_unite,12,1);
+    convert(plateau,nb_unite,12,0);
     printf("\n");
     return 0;
 }
