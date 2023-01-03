@@ -1,1 +1,1 @@
-# cultist-ai
+# Cultist-ai
