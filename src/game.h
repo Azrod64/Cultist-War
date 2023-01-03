@@ -1,7 +1,7 @@
 #ifndef _GAME_H
 #define _GAME_H
 
-#include "game_types.h"
+#include "game_types.h" //test-2
 
 void initGame(board, unitsArray); //initialize the board, put obstacles and neutral units (symetric)
 

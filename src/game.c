@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <time.h>
 #include "game.h"
-
+//test-1
 void initGame(board board, unitsArray nb_unite)
 {
     int compt=0,n,x,False =1,a,b;
@@ -56,7 +56,7 @@ void initGame(board board, unitsArray nb_unite)
             if(i>= MAX_UNITS/2)
             {
                 nb_unite->units[i]=nb_unite->units[i-MAX_UNITS/2];
-		nb_unite->units[i].unitId=i;
+		        nb_unite->units[i].unitId=i;
                 nb_unite->units[i].y=12-nb_unite->units[i].y;
             }
             else 
