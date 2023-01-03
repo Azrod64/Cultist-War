@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <time.h>
 #include "game.h"
-
+//ptn ca fonctionne plus5
 void initGame(board board, unitsArray nb_unite)
 {
     int compt=0,n,x,False =1,a,b;
@@ -426,4 +426,3 @@ int main(){
     printf("\n");
     return 0;
 }
-//en plus pour testé-2
