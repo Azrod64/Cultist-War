@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <time.h>
 #include "game.h"
-//test-1
+//test-2
 void initGame(board board, unitsArray nb_unite)
 {
     int compt=0,n,x,False =1,a,b;
